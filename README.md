@@ -40,22 +40,22 @@ the model from the samples and calculates entropy.
 Functions
 ---------
 
-mixedvinefit      - Mixed copula vine estimates
-mixedvinepdf      - Mixed copula vine probability density function
-mixedvinernd      - Mixed copula vine random numbers
-mixedvineentropy  - Mixed copula vine entropy estimate
-mixedvineinfo     - Mixed copula vine mutual information estimate
-mixedgaussfit     - Mixed copula vine estimates with Gaussian copula
-marginfit         - Univariate margin estimates
-marginpdf         - Univariate margin probability density function
-margincdf         - Univariate margin cumulative distribution function
-margininv         - Inverse of univariate margin CDF
-copulafit         - Copula parameter estimates
-copulapdf         - Copula probability density function
-copulacdf         - Copula cumulative distribution function
-copulaccdf        - Copula conditional cumulative distribution function
-copulaccdfinv     - Inverse of copula conditional CDF
-copularnd         - Copula random numbers
+* mixedvinefit - Mixed copula vine estimates
+* mixedvinepdf - Mixed copula vine probability density function
+* mixedvinernd - Mixed copula vine random numbers
+* mixedvineentropy - Mixed copula vine entropy estimate
+* mixedvineinfo - Mixed copula vine mutual information estimate
+* mixedgaussfit - Mixed copula vine estimates with Gaussian copula
+* marginfit - Univariate margin estimates
+* marginpdf - Univariate margin probability density function
+* margincdf - Univariate margin cumulative distribution function
+* margininv - Inverse of univariate margin CDF
+* copulafit - Copula parameter estimates
+* copulapdf - Copula probability density function
+* copulacdf - Copula cumulative distribution function
+* copulaccdf - Copula conditional cumulative distribution function
+* copulaccdfinv - Inverse of copula conditional CDF
+* copularnd - Copula random numbers
 
 
 License
