@@ -61,7 +61,7 @@ if dim == 1
     elseif strcmp(family,'claytonrot270')
         family = 'claytonrot090';
     end
-    c = copulaccdf(family,[u(:,2) u(:,1)],theta);
+    c = copulaccdf(family,[u(:,2),u(:,1)],theta);
     return;
 end
 
@@ -89,12 +89,14 @@ switch family
         end
         x = tinv(u,theta(2));
         c = tcdf(sqrt((theta(2)+1) ./ (theta(2)+x(:,2).^2)) .* (x(:,1) - theta(1) .* x(:,2)) ./ (sqrt(1-theta(1).^2)),theta(2)+1);
+        c(u(:,2)==0) = 0.5;
+        c(u(:,2)==1) = 0.5;
     case 'clayton'
         if ~isscalar(theta) || theta < 0
             error('copulaccdf: For Clayton, theta must be in [0, inf)');
         end
         if theta == 0
-            c = u(:, 1);
+            c = u(:,1);
         else
             c = max(u(:,2).^(-1-theta) .* (u(:,1).^(-theta) + u(:,2).^(-theta) - 1).^(-1-1./theta),0);
         end
