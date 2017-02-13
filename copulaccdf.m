@@ -89,8 +89,8 @@ switch family
         end
         x = tinv(u,theta(2));
         c = tcdf(sqrt((theta(2)+1) ./ (theta(2)+x(:,2).^2)) .* (x(:,1) - theta(1) .* x(:,2)) ./ (sqrt(1-theta(1).^2)),theta(2)+1);
-        c(u(:,2)<1e-16) = tcdf(sqrt((theta(2)+1)./ (1-theta(1).^2)) .* theta(1),theta(2)+1);
-        c(u(:,2)==1) = tcdf(-sqrt((theta(2)+1)./ (1-theta(1).^2)) .* theta(1),theta(2)+1);
+        c(u(:,2)<1e-16) = tcdf(sqrt((theta(2)+1)./(1-theta(1).^2)) .* theta(1),theta(2)+1);
+        c(u(:,2)==1) = tcdf(-sqrt((theta(2)+1)./(1-theta(1).^2)) .* theta(1),theta(2)+1);
     case 'clayton'
         if ~isscalar(theta) || theta < 0
             error('copulaccdf: For Clayton, theta must be in [0, inf)');
