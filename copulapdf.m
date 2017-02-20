@@ -76,7 +76,6 @@ switch family
         factor2 = -gammaln(theta(2)/2) - log(pi) - log(theta(2)) - log(1-theta(1).^2)/2 - log(tpdf(x(:,1),theta(2))) - log(tpdf(x(:,2),theta(2)));
         factor3 = (-(theta(2)+2)/2) .* log(1 + (x(:,1).^2 + x(:,2).^2 - theta(1) .* x(:,1) .* x(:,2)) ./ (theta(2).*(1-theta(1).^2)));
         p = exp(factor1 + factor2 + factor3);
-        p(isnan(p)) = 0;
     case 'clayton'
         if ~isscalar(theta) || theta < 0
             error('copulapdf: For Clayton, theta must be in [0, inf)');
@@ -116,5 +115,7 @@ switch family
     otherwise
         error(['copulapdf: Unknown family "' family '"']);
 end
+% Zero mass to boundary
+p(isnan(p)) = 0;
 
 end
