@@ -130,6 +130,8 @@ switch family
         error(['copulaccdfinv: Unknown family "' family '"']);
 end
 
+% Zero mass to boundary
+c(isnan(c)) = 0;
 % Numerical inaccuracies can cause imaginary parts
 c = real(c);
 
