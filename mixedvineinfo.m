@@ -65,30 +65,44 @@ pcond = repmat(pcond(:)',cases,1);
 % Gaussian confidence interval for erreps and level alpha
 conf = norminv(1 - alpha,0,1);
 
-info = 0;
-log2p = zeros(cases,ncond);
-
+% Estimate unconditional entropy h
 stderr = inf;
+h = 0;
 varsum = 0;
 k = 0;
-while stderr >= erreps
-    infok = zeros(cases,1);
-    k = k + 1;
+x = zeros(cases,length(vines{1}.margins));
+pcum = cumsum(pcond(:,end:-1:1),2);
+pcum = pcum(:,end:-1:1);
+while stderr >= erreps/2
+    % Generate samples
+    c = repmat(rand(cases,1),1,ncond);
+    c = sum(c <= pcum,2);
     for i = 1:ncond
-        % Generate samples
-        x = mixedvinernd(vines{i},cases);
-        % Compute probability of samples
-        for j = 1:ncond
-            [~,logp] = mixedvinepdf(vines{j},x);
-            log2p(:,j) = logp / log(2);
-        end
-        % Monte-Carlo estimate of information
-        infok = infok + pcond(:,i) .* (log2p(:,i) - log2(sum(pcond .* exp(log2p),2)));
+        sel = c==i;
+        cases_sel = sum(sel);
+        x(sel,:) = mixedvinernd(vines{i},cases_sel);
     end
-    info = info + (mean(infok) - info) / k;
+    p = zeros(cases,1);
+    for i = 1:ncond
+        p = p + pcond(1,i) * mixedvinepdf(vines{i},x);
+    end
+    logp = log(p);
+    log2p = logp(~isinf(logp)) / log(2);
+    k = k + 1;
+    % Monte-Carlo estimate of entropy
+    h = h + (-mean(log2p) - h) / k;
     % Estimate standard error
-    varsum = varsum + sum((infok - info) .^ 2);
+    varsum = varsum + sum((-log2p - h) .^ 2);
     stderr = conf * sqrt(varsum / (k * cases * (k * cases - 1)));
+end
+
+% Subtract conditional entropies
+info = h;
+for i = 1:ncond
+    errepscond = pcond(1,i) * erreps / 2;
+    [hcond,stderrcond] = mixedvineentropy(vines{i},alpha,errepscond,cases);
+    info = info - pcond(1,i) * hcond;
+    stderr = stderr + pcond(1,i) * stderrcond; 
 end
 
 end
