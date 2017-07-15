@@ -1,4 +1,4 @@
-% Copyright (C) 2016 Arno Onken
+% Copyright (C) 2016, 2017 Arno Onken
 %
 % This file is part of the Mixed Vine Toolbox.
 %
